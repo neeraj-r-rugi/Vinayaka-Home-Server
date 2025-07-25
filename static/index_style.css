@@ -1,0 +1,45 @@
+html {
+  background-color: blanchedalmond;
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+.password-form {
+  background-color: beige;
+  border: 5px solid black;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 40%;
+  height: 40%;
+}
+
+#login-heading {
+  border: 5px solid black;
+  border-radius: 10px;
+  background-color: antiquewhite;
+  text-align: center;
+  margin-bottom: 5%;
+  padding: 0.25%;
+}
+.form {
+  font-size: 20pt;
+}
+.form > #entry {
+  font-size: 20pt;
+  border: 5px solid black;
+  border-radius: 10px;
+  width: 75%;
+}
+.form > #submit {
+  font-size: 16pt;
+  border: 3px solid black;
+  border-radius: 10px;
+}

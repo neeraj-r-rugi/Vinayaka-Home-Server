@@ -1,0 +1,15 @@
+html {
+  background-color: blanchedalmond;
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  color: black;
+}
+a {
+  text-decoration: none;
+  color: black;
+  font-size: 16pt;
+}
+h1 {
+  text-align: center;
+}
+

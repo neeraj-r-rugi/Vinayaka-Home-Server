@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0", lang="en">
+    <title>Vinayaka Home Server</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <span id="login-heading"><h1>Vinayaka Home Server Login.</h1></span>
+    <div class = "password-form">
+        <h2>Please Enter The Password For Your Home Server:</h2>
+        <form method="POST" class="form">
+            <label>Enter The Password:</label>
+            <br />
+            <input type="password" name="password" required id="entry"/>
+            <input type="submit" value="Login" id="submit"/>
+        </form>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
