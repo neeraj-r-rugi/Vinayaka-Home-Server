@@ -1,15 +1,99 @@
-html {
-  background-color: blanchedalmond;
-  font-family: "JetBrains Mono", monospace;
-  font-optical-sizing: auto;
-  color: black;
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(145deg, #0f172a, #1e293b);
+  font-family: 'JetBrains Mono', monospace;
+  color: #e2e8f0;
+  animation: fadeIn 1s ease;
 }
-a {
-  text-decoration: none;
-  color: black;
-  font-size: 16pt;
+
+.container {
+  max-width: 840px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.08), 0 0 40px rgba(0, 255, 255, 0.05);
 }
+
 h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1.2rem;
+  color: #38bdf8;
   text-align: center;
 }
 
+.breadcrumbs {
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.breadcrumbs a {
+  color: #7dd3fc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs a:hover {
+  color: #38bdf8;
+}
+
+ul.file-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.file-list li {
+  margin: 0.6rem 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.file-link {
+  display: block;
+  padding: 0.85rem 1rem;
+  background-color: #334155;
+  color: #e0f2fe;
+  border-radius: 10px;
+  transition: background-color 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+
+.file-link:hover {
+  background-color: #475569;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.7rem 1rem;
+  background-color: #1e40af;
+  color: #e0e7ff;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.nav-link:hover {
+  background-color: #2563eb;
+  transform: scale(1.02);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -16,19 +16,46 @@
     />
   </head>
   <body>
-    <h1>Your Server Content</h1>
-    <h2>Currently In: /home/{{ req_path }}</h2>
-    <ul>
-      {% if req_path %}
-      <li>
-        <a href="{{ url_for('dashboard')}}">--RETURN HOME--</a>
-      </li>
-      <li>
-        <a href="{{ url_for('dashboard', req_path=req_path.rsplit('/', 1)[0]) }}">.. (Up one)</a>
-      </li>
-      {% endif %} {% for name, path in files %}
-      <li><a href="{{ path }}">->{{ name }}</a></li>
-      {% endfor %}
-    </ul>
+    <div class="container">
+      <h1>🚀 Vinayaka Home Server</h1>
+
+      <div class="breadcrumbs">
+        🧭 Path:
+        <a href="{{ url_for('dashboard', base_index=base_index) }}">home</a>
+        {% set parts = req_path.split('/') if req_path else [] %}
+        {% set built_path = '' %}
+        {% for part in parts %}
+          {% set built_path = built_path + '/' + part %}
+          &nbsp;/&nbsp;
+          <a href="{{ url_for('dashboard', base_index=base_index, req_path=built_path.strip('/')) }}">{{ part }}</a>
+        {% endfor %}
+      </div>
+
+      <ul class="file-list">
+        {% if req_path %}
+        <li><a class="nav-link" href="{{ url_for('dashboard', base_index=base_index) }}">⬅️ Return Home</a></li>
+        <li>
+          <a class="nav-link"
+            href="{{ url_for('dashboard', base_index=base_index, req_path=req_path.rsplit('/', 1)[0]) }}"
+            >🔼 Up One Directory</a
+          >
+        </li>
+        <li>
+          <a class="nav-link"
+            href="{{ url_for('download_zip', base_index=base_index, req_path=req_path) }}"
+            >📦 Download Folder as ZIP</a
+          >
+        </li>
+        {% endif %}
+
+        {% for name, path in files %}
+        <li>
+          <a class="file-link" href="{{ path }}">
+            {{ name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
