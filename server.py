@@ -53,7 +53,6 @@ def dashboard(req_path=''):
             full_path = os.path.join(req_path, f) if req_path else f
             abs_full_path = os.path.join(BASE_DIR, full_path)
 
-            # Determine if it's a directory or file and create appropriate link
             if os.path.isdir(abs_full_path):
                 display_name = f
                 link_path = url_for('dashboard', req_path=full_path)

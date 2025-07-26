@@ -13,7 +13,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated background particles */
+
 .particles {
   position: fixed;
   width: 100%;
@@ -49,7 +49,6 @@ body {
   }
 }
 
-/* Scanning lines effect */
 .scan-lines {
   position: fixed;
   top: 0;
@@ -71,7 +70,6 @@ body {
   100% { transform: translateY(4px); }
 }
 
-/* Main content wrapper */
 .main-content {
   position: relative;
   z-index: 10;
@@ -79,7 +77,6 @@ body {
   padding-bottom: 120px;
 }
 
-/* Container styling */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -118,7 +115,7 @@ body {
   100% { left: 100%; }
 }
 
-/* Header section */
+
 .header-section {
   margin-bottom: 3rem;
   text-align: center;
@@ -168,7 +165,6 @@ body {
   50% { opacity: 0.8; transform: scale(1.05); }
 }
 
-/* Breadcrumbs */
 .breadcrumbs {
   margin-bottom: 2rem;
 }
@@ -226,13 +222,11 @@ body {
   font-weight: bold;
 }
 
-/* File System Interface */
 .file-system {
   position: relative;
   z-index: 2;
 }
 
-/* Navigation Controls */
 .nav-controls {
   display: flex;
   gap: 1rem;
@@ -312,7 +306,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* File Grid */
 .file-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -393,7 +386,7 @@ body {
   transform: translateX(5px);
 }
 
-/* Footer */
+
 footer {
   position: fixed;
   bottom: 0;
@@ -489,7 +482,6 @@ footer::before {
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .container {
     margin: 1rem;
@@ -564,7 +556,7 @@ footer::before {
   }
 }
 
-/* Loading states */
+
 .loading .file-item {
   opacity: 0.6;
   pointer-events: none;
@@ -589,7 +581,7 @@ footer::before {
   100% { transform: rotate(360deg); }
 }
 
-/* Custom scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -609,7 +601,7 @@ footer::before {
   background: linear-gradient(135deg, #0099cc, #007acc);
 }
 
-/* Focus styles for accessibility */
+
 .nav-button:focus,
 .file-link:focus,
 .breadcrumb-link:focus,
@@ -618,7 +610,7 @@ footer::before {
   outline-offset: 2px;
 }
 
-/* Print styles */
+
 @media print {
   .particles,
   .scan-lines,
