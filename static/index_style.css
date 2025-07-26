@@ -96,3 +96,28 @@ label {
   margin-top: 1rem;
   font-size: 0.9rem;
 }
+footer {
+  margin-top: 3rem;
+  padding: 1rem 0;
+  text-align: center;
+  background-color: rgba(15, 23, 42, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -4px 12px rgba(0, 255, 255, 0.05);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+footer a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: #7dd3fc;
+  text-shadow: 0 0 5px #38bdf8;
+}
