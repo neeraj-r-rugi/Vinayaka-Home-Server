@@ -55,7 +55,7 @@ By using this server, you acknowledge that you understand these risks and will o
 
 1. **Clone or download the project files**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/neeraj-r-rugi/Vinayaka-Home-Server
    cd vinayaka-home-server
    ```
 
@@ -87,7 +87,7 @@ python server.py
 ```
 
 This will:
-- Use `/media/neeraj-r-rugi/NEERAJ_DRIVE` as the default directory
+- Use `/media/Your-Drive\` as the default directory(Change this to your Actual Drive.)
 - Set password to "Dingus" (change this for security!)
 - Start the server on `http://0.0.0.0:5000`
 
