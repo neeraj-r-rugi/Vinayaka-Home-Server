@@ -10,6 +10,7 @@ def init_parser() ->argparse.ArgumentParser:
                         help="The Password for Logging into your server.")
     parser.add_argument("--exclude-dir", "-ed",
                         nargs="+",
+                        default=[],
                         help="List The Directories to be Excluded.")
     parser.add_argument("--debug", "-db",
                         action="store_true",
