@@ -2,12 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-      ,
-      lang="en"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vinayaka Home Server</title>
     <link
       rel="stylesheet"
@@ -21,29 +16,84 @@
     />
   </head>
   <body>
-    <span id="login-heading"><h1>Vinayaka Home Server Login.</h1></span>
-    <div class="password-form">
-      <h2>Please Enter The Password For Your Home Server:</h2>
-      <form method="POST" class="form">
-        <label>Enter The Password:</label>
-        <br />
-        <input type="password" name="password" required id="entry" />
-        <input type="submit" value="Login" id="submit" />
-      </form>
-      {% if error %}
-      <p style="color: red">{{ error }}</p>
-      {% endif %}
+    <div class="particles" id="particles"></div>
+    
+    <div class="main-content">
+      <span id="login-heading">
+        <h1>VINAYAKA HOME SERVER</h1>
+      </span>
+      
+      <div class="password-form">
+        <h2>Secure Access Portal</h2>
+        <form method="POST" class="form" id="loginForm">
+          <label for="entry">Authorization Key Required</label>
+          <input 
+            type="password" 
+            name="password" 
+            required 
+            id="entry" 
+            placeholder="Enter access credentials..."
+            autocomplete="current-password"
+          />
+          <input type="submit" value="Initialize Access" id="submit" />
+        </form>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+      </div>
     </div>
+
     <footer>
       <p>
         &copy; 2024 Vinayaka Home Server. Developed by Neeraj R Rugi. |
-        <a
-          href="https://github.com/neeraj-r-rugi"
-          target="_blank"
-          rel="noopener"
-          >GitHub</a
-        >
+        <a href="https://github.com/neeraj-r-rugi" target="_blank" rel="noopener">
+          GitHub Profile
+        </a>
       </p>
     </footer>
+
+    <script>
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 15 + 's';
+          particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+          particlesContainer.appendChild(particle);
+        }
+      }
+      document.getElementById('loginForm').addEventListener('submit', function() {
+        document.body.classList.add('loading');
+      });
+
+      const passwordInput = document.getElementById('entry');
+      passwordInput.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      passwordInput.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'l') {
+          e.preventDefault();
+          passwordInput.focus();
+        }
+      });
+
+      window.addEventListener('load', createParticles);
+
+      passwordInput.addEventListener('keydown', function() {
+        this.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+        }, 100);
+      });
+    </script>
   </body>
 </html>

@@ -16,62 +16,181 @@
     />
   </head>
   <body>
-    <div class="container">
-      <h1>Vinayaka Home Server</h1>
+    <!-- Animated background elements -->
+    <div class="particles" id="particles"></div>
+    <div class="scan-lines"></div>
+    
+    <div class="main-content">
+      <div class="container">
+        <!-- Header Section -->
+        <div class="header-section">
+          <h1 class="main-title">
+            <span class="title-icon">🖥️</span>
+            VINAYAKA HOME SERVER
+            <span class="status-indicator">ONLINE</span>
+          </h1>
+          
+          <!-- Breadcrumb Navigation -->
+          <div class="breadcrumbs">
+            <div class="breadcrumb-container">
+              <span class="breadcrumb-label">CURRENT PATH:</span>
+              <div class="breadcrumb-path">
+                <a href="{{ url_for('dashboard') }}" class="breadcrumb-link">
+                  <span class="breadcrumb-icon">🏠</span>home
+                </a>
+                {% if req_path %}
+                  {% set parts = req_path.split('/') %}
+                  {% set built_path = '' %}
+                  {% for part in parts %}
+                    {% set built_path = built_path + '/' + part if built_path else part %}
+                    <span class="breadcrumb-separator">/</span>
+                    <a
+                      href="{{ url_for('dashboard', req_path=built_path) }}"
+                      class="breadcrumb-link"
+                    >{{ part }}</a>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="breadcrumbs">
-        Path:
-        <a href="{{ url_for('dashboard', base_index=base_index) }}">home</a>
-        {% set parts = req_path.split('/') if req_path else [] %} {% set
-        built_path = '' %} {% for part in parts %} {% set built_path =
-        built_path + '/' + part %} &nbsp;/&nbsp;
-        <a
-          href="{{ url_for('dashboard', base_index=base_index, req_path=built_path.strip('/')) }}"
-          >{{ part }}</a
-        >
-        {% endfor %}
+        <!-- File System Interface -->
+        <div class="file-system">
+          <!-- Navigation Controls -->
+          {% if req_path %}
+          <div class="nav-controls">
+            <a
+              class="nav-button primary"
+              href="{{ url_for('dashboard') }}"
+            >
+              <span class="nav-icon">🏠</span>
+              <span class="nav-text">RETURN HOME</span>
+            </a>
+            <a
+              class="nav-button secondary"
+              href="{{ url_for('dashboard', req_path=req_path.rsplit('/', 1)[0] if '/' in req_path else '') }}"
+            >
+              <span class="nav-icon">⬆️</span>
+              <span class="nav-text">UP DIRECTORY</span>
+            </a>
+            <a
+              class="nav-button tertiary"
+              href="{{ url_for('download_zip', req_path=req_path) }}"
+            >
+              <span class="nav-icon">📦</span>
+              <span class="nav-text">DOWNLOAD ZIP</span>
+            </a>
+          </div>
+          {% endif %}
+
+          <!-- File List -->
+          <div class="file-grid">
+            {% for name, path, is_directory in files %}
+            <div class="file-item" data-file-type="{{ 'folder' if is_directory else 'file' }}">
+              <a href="{{ path }}" class="file-link">
+                <div class="file-icon">
+                  {% if is_directory %}
+                    📁
+                  {% elif name.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg')) %}
+                    🖼️
+                  {% elif name.lower().endswith(('.mp4', '.avi', '.mov', '.mkv', '.wmv', '.flv', '.webm')) %}
+                    🎥
+                  {% elif name.lower().endswith(('.mp3', '.wav', '.flac', '.aac', '.ogg', '.wma')) %}
+                    🎵
+                  {% elif name.lower().endswith(('.pdf', '.doc', '.docx', '.txt', '.rtf', '.odt')) %}
+                    📄
+                  {% elif name.lower().endswith(('.zip', '.rar', '.7z', '.tar', '.gz', '.bz2')) %}
+                    📦
+                  {% elif name.lower().endswith(('.py', '.js', '.html', '.css', '.json', '.xml', '.java', '.cpp', '.c', '.php')) %}
+                    💻
+                  {% elif name.lower().endswith(('.xls', '.xlsx', '.csv')) %}
+                    📊
+                  {% elif name.lower().endswith(('.ppt', '.pptx')) %}
+                    📈
+                  {% else %}
+                    📋
+                  {% endif %}
+                </div>
+                <div class="file-info">
+                  <div class="file-name">{{ name }}</div>
+                  <div class="file-type">
+                    {% if is_directory %}
+                      DIRECTORY
+                    {% else %}
+                      FILE
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="file-arrow">→</div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-
-      <ul class="file-list">
-        {% if req_path %}
-        <li>
-          <a
-            class="nav-link"
-            href="{{ url_for('dashboard', base_index=base_index) }}"
-            >⬅️ Return Home</a
-          >
-        </li>
-        <li>
-          <a
-            class="nav-link"
-            href="{{ url_for('dashboard', base_index=base_index, req_path=req_path.rsplit('/', 1)[0]) }}"
-            >🔼 Up One Directory</a
-          >
-        </li>
-        <li>
-          <a
-            class="nav-link"
-            href="{{ url_for('download_zip', base_index=base_index, req_path=req_path) }}"
-            >📦 Download Folder as ZIP</a
-          >
-        </li>
-        {% endif %} {% for name, path in files %}
-        <li>
-          <a class="file-link" href="{{ path }}"> {{ name }} </a>
-        </li>
-        {% endfor %}
-      </ul>
     </div>
+
+    <!-- Footer -->
     <footer>
-      <p>
-        &copy; 2024 Vinayaka Home Server. Developed by Neeraj R Rugi. |
-        <a
-          href="https://github.com/neeraj-r-rugi"
-          target="_blank"
-          rel="noopener"
-          >GitHub</a
-        >
-      </p>
+      <div class="footer-content">
+        <div class="footer-info">
+          <span class="copyright">&copy; 2024 VINAYAKA HOME SERVER</span>
+          <span class="separator">|</span>
+          <span class="developer">DEVELOPED BY NEERAJ R RUGI</span>
+        </div>
+        <div class="footer-links">
+          <a
+            href="https://github.com/neeraj-r-rugi"
+            target="_blank"
+            rel="noopener"
+            class="footer-link"
+          >
+            <span class="link-icon">⚡</span>
+            GITHUB PROFILE
+          </a>
+        </div>
+      </div>
     </footer>
+
+    <script>
+      // Create floating particles
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Add hover effects to file items
+      document.querySelectorAll('.file-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+
+      // Initialize particles when page loads
+      window.addEventListener('load', createParticles);
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'h') {
+          e.preventDefault();
+          // Navigate to home
+          window.location.href = "{{ url_for('dashboard') }}";
+        }
+      });
+    </script>
   </body>
 </html>
