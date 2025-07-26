@@ -128,7 +128,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
   animation: titleGlow 3s ease-in-out infinite alternate;
   letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
@@ -141,7 +141,7 @@ body {
 
 .title-icon {
   font-size: 2.5rem;
-  filter: drop-shadow(0 0 10px #00d4ff);
+  filter: drop-shadow(0 0 5px #00d4ff);
 }
 
 .status-indicator {
@@ -351,7 +351,7 @@ body {
 .file-icon {
   font-size: 2.5rem;
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px currentColor);
+  filter: drop-shadow(0 0 4px currentColor);
 }
 
 .file-info {
