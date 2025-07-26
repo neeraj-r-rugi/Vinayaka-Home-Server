@@ -103,7 +103,7 @@ python server.py [OPTIONS]
 
 | Option | Short | Description | Default |
 |--------|--------|-------------|---------|
-| `--data-dir` | `-dr` | Directory to serve files from | `/media/neeraj-r-rugi/NEERAJ_DRIVE` |
+| `--data-dir` | `-dir` | Directory to serve files from | `/media/neeraj-r-rugi/NEERAJ_DRIVE` |
 | `--password` | `-ps` | Password for server access | `Dingus` |
 | `--exclude-dir` | `-ed` | Directories to exclude (space-separated) | None |
 | `--debug` | `-db` | Enable Flask debug mode | Disabled |
@@ -151,7 +151,7 @@ You can also modify the default values directly in `util.py`:
 ```python
 def init_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="VinayakaHomeServer", description="A Local WAN Home Data Server")
-    parser.add_argument("--data-dir", "-dr",
+    parser.add_argument("--data-dir", "-dir",
                         default="/your/custom/directory",  # Change this
                         help="The Directory which the server is to host.")
     parser.add_argument("--password", "-ps",

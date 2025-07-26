@@ -2,8 +2,8 @@ import argparse
 
 def init_parser() ->argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="VinayakaHomeServer", description="A Local WAN Home Data Server")
-    parser.add_argument("--data-dir", "-dr",
-                        default="/media/Your-Drive",
+    parser.add_argument("--data-dir", "-dir",
+                        default="/media/neeraj-r-rugi/NEERAJ_DRIVE",
                         help="The Directory which the server is to host.")
     parser.add_argument("--password", "-ps",
                         default="Dingus",
