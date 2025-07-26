@@ -38,9 +38,9 @@ By using this server, you acknowledge that you understand these risks and will o
 - **Password Protection**: Secure login system to prevent unauthorized access
 - **Directory Navigation**: Browse through folders and files with an intuitive web interface
 - **File Serving**: Direct file access and download capabilities
-- **ZIP Downloads**: Download entire folders as ZIP archives
+- **ZIP Downloads**: Download entire folders as ZIP archives (with robust exclusion support)
 - **Network Access**: Access your files from any device on your local network
-- **Security Controls**: Path traversal protection and directory exclusion
+- **Security Controls**: Path traversal protection and directory exclusion (now robust with subdirectory support)
 - **Command-Line Configuration**: Easy setup with command-line arguments
 - **Debug Mode**: Optional debug mode for development
 - **Clean UI**: Modern, responsive design with JetBrains Mono font
@@ -87,7 +87,7 @@ python server.py
 ```
 
 This will:
-- Use `/media/Your-Drive\` as the default directory(Change this to your Actual Drive.)
+- Use `/media/Your-Drive/` as the default directory (Change this to your actual drive.)
 - Set password to "Dingus" (change this for security!)
 - Start the server on `http://0.0.0.0:5000`
 
@@ -105,7 +105,7 @@ python server.py [OPTIONS]
 |--------|--------|-------------|---------|
 | `--data-dir` | `-dir` | Directory to serve files from | `/media/neeraj-r-rugi/NEERAJ_DRIVE` |
 | `--password` | `-ps` | Password for server access | `Dingus` |
-| `--exclude-dir` | `-ed` | Directories to exclude (space-separated) | None |
+| `--exclude-dir` | `-ed` | Directories (and subdirectories) to exclude (space-separated) | None |
 | `--debug` | `-db` | Enable Flask debug mode | Disabled |
 | `--help` | `-h` | Show help message | - |
 
@@ -116,10 +116,11 @@ python server.py [OPTIONS]
 python server.py --data-dir "/home/username/Documents" --password "MySecurePassword123"
 ```
 
-**Exclude specific directories:**
+**Exclude specific directories or subdirectories:**
 ```bash
-python server.py --data-dir "/home/user/files" --exclude-dir "Private" "Confidential" "Personal"
+python server.py --data-dir "/home/user/files" --exclude-dir "Private" "Confidential" "Personal" "Media/Videos"
 ```
+> **Note:** Exclusion is robust. You can specify subdirectories (e.g., `"Media/Videos"`), and both `"Folder"` and `"Folder/"` are treated the same.
 
 **Enable debug mode for development:**
 ```bash
@@ -131,7 +132,7 @@ python server.py --debug --password "DevPassword"
 python server.py \
     --data-dir "/Users/john/SharedFiles" \
     --password "SuperSecurePassword2024" \
-    --exclude-dir "Private" "Work" "Confidential" \
+    --exclude-dir "Private" "Work" "Confidential" "Projects/Old" \
     --debug
 ```
 
@@ -201,9 +202,9 @@ def init_parser() -> argparse.ArgumentParser:
 
 - **Browse Directories**: Click on folder names (marked with `/`) to navigate into them
 - **Download Files**: Click on file names to view or download them
-- **Download Folders**: Use "📦 Download Folder as ZIP" to download entire directories
-- **Go Back**: Use "🔼 Up One Directory" to go back to the parent directory
-- **Return Home**: Click "⬅️ Return Home" to go back to the base directory
+- **Download Folders**: Use "📦 Download Folder as ZIP" to download entire directories (excluded directories and subdirectories will not be included)
+- **Go Back**: Use "⬆️ Up One Directory" to go back to the parent directory
+- **Return Home**: Click "🏠 Return Home" to go back to the base directory
 - **Breadcrumb Navigation**: Use the path navigation at the top to jump to any parent directory
 
 ## Security Features
@@ -211,7 +212,7 @@ def init_parser() -> argparse.ArgumentParser:
 ### Built-in Security
 - **Password Authentication**: Session-based login system with configurable passwords
 - **Path Traversal Protection**: Prevents access to directories outside the base directory
-- **Directory Exclusion**: Hide sensitive directories from the web interface using `--exclude-dir`
+- **Directory Exclusion**: Hide sensitive directories or subdirectories from the web interface and ZIP downloads using `--exclude-dir`
 - **Session Management**: Secure session handling with randomly generated secret keys
 - **Input Validation**: Proper validation of file paths and user inputs
 
@@ -221,9 +222,9 @@ def init_parser() -> argparse.ArgumentParser:
    python server.py --password "YourStrongPassword123!"
    ```
 
-2. **Exclude Sensitive Directories**: Hide private folders from the web interface
+2. **Exclude Sensitive Directories or Subdirectories**: Hide private folders from the web interface and ZIP downloads
    ```bash
-   python server.py --exclude-dir "Private" "Personal" "Confidential"
+   python server.py --exclude-dir "Private" "Personal" "Confidential" "Media/Videos"
    ```
 
 3. **Local Network Only**: This server is designed for local network use only
@@ -345,7 +346,7 @@ vinayaka-home-server/
 - **Template Engine**: Jinja2 templates for dynamic HTML generation
 - **Session Management**: Secure login state management
 - **File System Integration**: Safe directory traversal and file serving
-- **ZIP Generation**: In-memory ZIP creation for folder downloads
+- **ZIP Generation**: In-memory ZIP creation for folder downloads (with robust exclusion logic)
 
 ### Adding Custom Features
 The modular design makes it easy to extend functionality:

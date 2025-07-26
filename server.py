@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, abort, send_file
+from pathlib import Path
 import os
 import secrets
 import io
@@ -33,34 +34,37 @@ def dashboard(req_path=''):
     if not session.get('logged_in'):
         return redirect(url_for('main'))
 
-    abs_path = os.path.join(BASE_DIR, req_path)
-    
-    if not os.path.commonprefix([abs_path, BASE_DIR]) == BASE_DIR:
+    base_path = Path(BASE_DIR).resolve()
+    abs_path = (base_path / req_path).resolve()
+
+    # Prevent directory traversal
+    if not str(abs_path).startswith(str(base_path)):
         return abort(403)
 
-    if os.path.isfile(abs_path):
-        return send_from_directory(os.path.dirname(abs_path), os.path.basename(abs_path), as_attachment=False)
+    if abs_path.is_file():
+        return send_from_directory(abs_path.parent, abs_path.name, as_attachment=False)
 
-    if os.path.isdir(abs_path):
-        files = os.listdir(abs_path)
+    if abs_path.is_dir():
         file_links = []
+        for f in abs_path.iterdir():
+            # Compute the relative path from BASE_DIR for exclusion check
+            rel_path = f.relative_to(base_path)
+            rel_path_str = str(rel_path).replace("\\", "/").rstrip("/")
 
-        for f in files:
-            if EXCLUDED_DIRS:
-                if f in EXCLUDED_DIRS:
-                    continue  # Skip excluded directories
-            
-            full_path = os.path.join(req_path, f) if req_path else f
-            abs_full_path = os.path.join(BASE_DIR, full_path)
+            # Exclude if any excluded dir matches the start of the path
+            exclude = False
+            for ex in EXCLUDED_DIRS:
+                ex_norm = ex.strip("/\\")
+                # Exclude if the rel_path matches or is a subpath of ex
+                if rel_path_str == ex_norm or rel_path_str.startswith(ex_norm + "/"):
+                    exclude = True
+                    break
+            if exclude:
+                continue
 
-            if os.path.isdir(abs_full_path):
-                display_name = f
-                link_path = url_for('dashboard', req_path=full_path)
-            else:
-                display_name = f
-                link_path = url_for('dashboard', req_path=full_path)
-            
-            file_links.append((display_name, link_path, os.path.isdir(abs_full_path)))
+            display_name = f.name
+            link_path = url_for('dashboard', req_path=str(rel_path))
+            file_links.append((display_name, link_path, f.is_dir()))
 
         return render_template('dashboard.html', req_path=req_path, files=file_links)
 
@@ -73,25 +77,39 @@ def download_zip(req_path=''):
     if not session.get('logged_in'):
         return redirect(url_for('main'))
 
-    abs_path = os.path.join(BASE_DIR, req_path) if req_path else BASE_DIR
+    base_path = Path(BASE_DIR).resolve()
+    abs_path = (base_path / req_path).resolve()
 
-    if not os.path.commonprefix([abs_path, BASE_DIR]) == BASE_DIR:
+    # Prevent directory traversal
+    if not str(abs_path).startswith(str(base_path)):
         return abort(403)
 
-    if not os.path.isdir(abs_path):
+    if not abs_path.is_dir():
         return abort(404)
+
+    # Prepare normalized excluded paths
+    excluded = [Path(ex.strip("/\\")).parts for ex in EXCLUDED_DIRS]
 
     # Create in-memory ZIP
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-        for root, dirs, files in os.walk(abs_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                arcname = os.path.relpath(file_path, abs_path)
-                zip_file.write(file_path, arcname)
+        for file_path in abs_path.rglob('*'):
+            rel_path = file_path.relative_to(abs_path)
+            rel_parts = rel_path.parts
+
+            # Exclude if any excluded path matches the start of rel_parts
+            skip = False
+            for ex_parts in excluded:
+                if len(ex_parts) > 0 and rel_parts[:len(ex_parts)] == ex_parts:
+                    skip = True
+                    break
+            if skip or file_path.is_dir():
+                continue
+
+            zip_file.write(file_path, str(rel_path))
 
     zip_buffer.seek(0)
-    folder_name = os.path.basename(abs_path.rstrip('/')) or 'root'
+    folder_name = abs_path.name or 'root'
     return send_file(
         zip_buffer,
         mimetype='application/zip',
