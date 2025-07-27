@@ -87,26 +87,28 @@ def download_zip(req_path=''):
     if not abs_path.is_dir():
         return abort(404)
 
-    # Prepare normalized excluded paths
-    excluded = [Path(ex.strip("/\\")).parts for ex in EXCLUDED_DIRS]
+    # Prepare normalized excluded paths (as strings, root-relative)
+    excluded = [ex.strip("/\\") for ex in EXCLUDED_DIRS]
 
-    # Create in-memory ZIP
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
         for file_path in abs_path.rglob('*'):
-            rel_path = file_path.relative_to(abs_path)
-            rel_parts = rel_path.parts
+            # Compute root-relative path for exclusion
+            rel_path_from_root = file_path.relative_to(base_path)
+            rel_path_str = str(rel_path_from_root).replace("\\", "/").rstrip("/")
 
-            # Exclude if any excluded path matches the start of rel_parts
+            # Exclude if any excluded dir matches the start of the path
             skip = False
-            for ex_parts in excluded:
-                if len(ex_parts) > 0 and rel_parts[:len(ex_parts)] == ex_parts:
+            for ex in excluded:
+                if rel_path_str == ex or rel_path_str.startswith(ex + "/"):
                     skip = True
                     break
             if skip or file_path.is_dir():
                 continue
 
-            zip_file.write(file_path, str(rel_path))
+            # Path inside the zip should be relative to the zipped folder
+            rel_path_in_zip = file_path.relative_to(abs_path)
+            zip_file.write(file_path, str(rel_path_in_zip))
 
     zip_buffer.seek(0)
     folder_name = abs_path.name or 'root'
