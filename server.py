@@ -5,7 +5,7 @@ import secrets
 import io
 import zipfile
 import util
-
+from werkzeug.security import generate_password_hash, check_password_hash
 server = Flask(__name__)
 server.secret_key = secrets.token_hex(32)
 
@@ -18,8 +18,8 @@ EXCLUDED_DIRS = list()
 @server.route('/', methods=['GET', 'POST'])
 def main():
     if request.method == "POST":
-        password = request.form['password']
-        if password == PASSWORD:
+        user_password = request.form['password']
+        if check_password_hash(PASSWORD, user_password):
             session['logged_in'] = True
             return redirect(url_for('dashboard'))
         else:
@@ -122,11 +122,18 @@ if __name__ == "__main__":
     parser = util.init_parser()
     user_args = parser.parse_args()
     user_args= {"directory":user_args.data_dir, "password": user_args.password, "Exclude":user_args.exclude_dir,
-                "debug":user_args.debug}
+                "debug":user_args.debug, "generate":user_args.generate}
     BASE_DIR = user_args['directory']
-    PASSWORD = user_args['password']
+    if(user_args['generate']):
+        #If User Provides Password and generate tag in argument, Then generate Argument is Overriden.
+        passkey = util.generate_password()
+        print(f"Your Secure Passkey is: {passkey}")
+        PASSWORD = generate_password_hash(passkey, method="pbkdf2:sha256")
+    else:
+        PASSWORD = generate_password_hash(user_args['password'], method="pbkdf2:sha256")
+
     EXCLUDED_DIRS = user_args['Exclude']
     if(user_args['debug']):
-        server.run(host="0.0.0.0", port=5000, debug=True)
+        server.run(host="0.0.0.0", port=5000, debug=True, ssl_context = "adhoc")
     else:
-        server.run(host="0.0.0.0", port=5000)
+        server.run(host="0.0.0.0", port=5000, ssl_context = "adhoc")
