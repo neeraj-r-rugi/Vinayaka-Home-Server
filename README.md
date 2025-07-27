@@ -61,12 +61,17 @@ By using this server, you acknowledge that you understand these risks and will o
    cd vinayaka-home-server
    ```
 
-2. **Install Flask**
+2. **Install required dependencies**
    ```bash
    pip install flask
    ```
 
-3. **Create the required directory structure**
+3. **Optional: Install PyInstaller for standalone executable**
+   ```bash
+   pip install pyinstaller
+   ```
+
+4. **Create the required directory structure**
    ```
    project-folder/
    ├── server.py
@@ -166,6 +171,111 @@ python server.py \
 ```cmd
 python server.py --data-dir "C:\Users\YourName\Documents" --generate
 ```
+
+## Creating a Standalone Executable
+
+For easier distribution and usage without requiring Python installation on target machines, you can create a standalone executable using PyInstaller.
+
+### **Prerequisites for Executable**
+- PyInstaller installed: `pip install pyinstaller`
+- All project files in the correct directory structure
+
+### **Build the Executable**
+Navigate to your project directory and run:
+
+```bash
+pyinstaller --onefile --console --add-data "templates:templates" --add-data "static:static" server.py
+```
+
+**Command breakdown:**
+- `--onefile`: Creates a single executable file instead of a folder
+- `--console`: Keeps the console window open to see server output and generated passwords
+- `--add-data "templates:templates"`: Includes the HTML templates in the executable
+- `--add-data "static:static"`: Includes CSS stylesheets in the executable
+- `server.py`: The main Python file to convert
+
+### **Using the Executable**
+
+After building, you'll find the executable in the `dist/` folder:
+
+**Linux/macOS:**
+```bash
+# Navigate to the dist folder
+cd dist/
+
+# Run with generated password
+./server --generate --data-dir "/path/to/your/files"
+
+# Or with custom password
+./server --data-dir "/path/to/your/files" --password "YourPassword"
+
+#Launch in the same context as the terminal(Deafults to ./)
+./server --password "YourPassword"
+```
+
+**Windows:**
+```cmd
+# Navigate to the dist folder
+cd dist\
+
+# Run with generated password
+server.exe --generate --data-dir "C:\Path\To\Your\Files"
+
+# Or with custom password  
+server.exe --data-dir "C:\Path\To\Your\Files" --password "YourPassword"
+
+#Launch in the same context as the terminal(Deafults to ./)
+server.exe --password "YourPassword"
+```
+
+### **Adding to System PATH (Optional)**
+
+To run the executable from anywhere without specifying the full path:
+
+**Linux/macOS:**
+1. Copy the executable to a directory in your PATH:
+   ```bash
+   sudo cp dist/server /usr/local/bin/vinayaka-server
+   sudo chmod +x /usr/local/bin/vinayaka-server
+   ```
+
+2. Now you can run from anywhere:
+   ```bash
+   vinayaka-server --generate --data-dir "/home/user/Documents"
+   ```
+
+**Windows:**
+1. **Copy executable to a permanent location:**
+   ```cmd
+   mkdir "C:\Program Files\VinayakaServer"
+   copy "dist\server.exe" "C:\Program Files\VinayakaServer\vinayaka-server.exe"
+   ```
+
+2. **Add to System PATH:**
+   - Press `Win + R`, type `sysdm.cpl`, press Enter
+   - Click "Environment Variables"
+   - Under "System Variables", find and select "Path", click "Edit"
+   - Click "New" and add: `C:\Program Files\VinayakaServer`
+   - Click "OK" on all dialogs
+   - Restart Command Prompt
+
+3. **Now you can run from anywhere:**
+   ```cmd
+   vinayaka-server --generate --data-dir "C:\Users\YourName\Documents"
+   ```
+
+### **Executable Benefits**
+- **No Python Required**: Run on machines without Python installed
+- **Self-Contained**: All dependencies bundled into a single file
+- **Easy Distribution**: Share a single executable file with others
+- **Cross-Platform**: Build on Windows for Windows, Linux for Linux, etc.
+- **Path Integration**: Add to system PATH for global access
+
+### **Executable Limitations**
+- **Platform Specific**: Must build on target platform (Windows exe won't run on Linux)
+- **Larger File Size**: Includes Python interpreter and all dependencies
+- **Slower Startup**: Takes longer to start than native Python execution
+- **Antivirus Warnings**: Some antivirus software may flag PyInstaller executables
 
 ## HTTPS and Browser Security Warnings
 
