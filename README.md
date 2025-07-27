@@ -87,7 +87,7 @@ python server.py
 ```
 
 This will:
-- Use `/media/Your-Drive/` as the default directory (Change this to your actual drive.)
+- Use `./` as the default directory (Change this to your actual drive.)
 - Set password to "Dingus" (change this for security!)
 - Start the server on `http://0.0.0.0:5000`
 
@@ -367,6 +367,14 @@ This is a student project, but suggestions and improvements are welcome! Feel fr
 - Submit pull requests with improvements
 - Improve documentation and examples
 
+## Screen Shots Of The Webpage
+   | Info | Image|
+   |------|------|
+   |Main Login Page | ![.](./media/1.png)|
+   |Invalid Password Error | ![.](./media/2.png)|
+   |Main Dashboard| ![.](./media/3.png)|
+   |Inside Sub-Directory| ![.](./media/4.png)|
+   
 ---
 
 **Remember: Always prioritize security when using this server. Only use it on trusted networks and with strong passwords!**

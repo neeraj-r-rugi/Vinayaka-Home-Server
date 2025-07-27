@@ -23,7 +23,7 @@ def main():
             session['logged_in'] = True
             return redirect(url_for('dashboard'))
         else:
-            return render_template('index.html', error="Invalid Password")
+            return render_template('index.html', error="Accesses Key Invalid.")
     
     return render_template('index.html')
 
