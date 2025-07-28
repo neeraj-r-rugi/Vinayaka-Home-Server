@@ -37,6 +37,18 @@ A simple Flask-based web server that provides secure access to files and directo
 - [Advanced Configuration](#advanced-configuration)
   - [Environment-Specific Examples](#environment-specific-examples)
   - [Multiple Configurations](#multiple-configurations)
+- [🌐 Remote Access with Ngrok](#-remote-access-with-ngrok)
+
+  - [What is Ngrok?](#what-is-ngrok)
+  - [Setup Instructions](#setup-instructions)
+
+    - [Install Ngrok](#1-install-ngrok)
+    - [Authenticate Ngrok](#2-authenticate-ngrok)
+    - [Start Your Server](#3-start-your-server)
+    - [Start Ngrok Tunnel](#4-start-ngrok-tunnel)
+  - [Optional Enhancements](#optional-enhancements)
+  - [Security Notes](#security-notes)
+  - [Alternative: Cloudflare Tunnel](#alternative-cloudflare-tunnel)
 - [Troubleshooting](#troubleshooting)
   - [Common Issues](#common-issues)
   - [Getting Help](#getting-help)
@@ -532,6 +544,92 @@ python server.py ^
     --generate ^
     --exclude-dir "Private" "Work"
 ```
+
+## 🌐 Remote Access with Ngrok
+
+While Vinayaka Home Server is designed for local network usage, you can extend its access securely over the internet using **Ngrok**, a tunneling service that exposes your local server via a secure public URL.
+
+### What is Ngrok?
+
+Ngrok creates a secure tunnel from your machine to the internet, allowing you to:
+
+* Access your local server remotely via a public HTTPS URL.
+* Avoid router configuration or port forwarding.
+* Keep your files hosted locally while securely sharing access.
+
+### Setup Instructions
+
+#### 1. Install Ngrok
+
+**Linux:**
+
+```bash
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+tar -xvzf ngrok-v3-stable-linux-amd64.tgz
+sudo mv ngrok /usr/local/bin/
+```
+
+**Windows/Mac:** Download from [https://ngrok.com/download](https://ngrok.com/download).
+
+#### 2. Authenticate Ngrok
+
+Sign up for a free Ngrok account and run:
+
+```bash
+ngrok config add-authtoken <YOUR_AUTH_TOKEN>
+```
+
+#### 3. Start Your Server
+
+Run your home server locally:
+
+```bash
+python server.py --data-dir "/path/to/files" --generate
+```
+
+#### 4. Start Ngrok Tunnel
+
+In a separate terminal:
+
+```bash
+ngrok http https://localhost:5000
+```
+
+Ngrok will provide a public HTTPS URL (e.g., `https://abcd1234.ngrok-free.app`) that securely tunnels to your server.
+
+### Optional Enhancements
+
+* **Fixed Domain:**
+
+  ```bash
+  ngrok http --domain=vinayaka.ngrok-free.app 5000
+  ```
+* **Extra Authentication:**
+
+  ```bash
+  ngrok http --basic-auth="user:pass" https://localhost:5000
+  ```
+
+### Security Notes
+
+* Only use Ngrok on trusted personal machines.
+* Always keep your server password-protected.
+* Stop Ngrok when not in use.
+* **ONLY** use `generated password's` when using Ngrok for maximum security.
+
+### Alternative: Cloudflare Tunnel
+
+For unlimited free tunnels and custom domains, you can use **Cloudflare Tunnel**:
+
+```bash
+cloudflared tunnel --url https://localhost:5000
+```
+
+This is ideal for self-hosting with persistent URLs.
+
+---
+
+This section is an extension to the server’s capabilities for users who want secure remote access while maintaining control over their files locally.
 
 ## Troubleshooting
 
