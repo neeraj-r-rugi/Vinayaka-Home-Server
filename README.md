@@ -2,6 +2,55 @@
 
 A simple Flask-based web server that provides secure access to files and directories on your local machine from any device connected to your home network. Perfect for students who want to access their files remotely within their local network.
 
+## Table of Contents
+
+- [⚠️ Important Security Disclaimer](#️-important-security-disclaimer)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+  - [Basic Usage](#basic-usage)
+  - [Secure Password Generation](#secure-password-generation)
+  - [Command-Line Options](#command-line-options)
+- [Creating a Standalone Executable](#creating-a-standalone-executable)
+  - [Prerequisites for Executable](#prerequisites-for-executable)
+  - [Build the Executable](#build-the-executable)
+  - [Using the Executable](#using-the-executable)
+  - [Adding to System PATH (Optional)](#adding-to-system-path-optional)
+  - [Executable Benefits](#executable-benefits)
+  - [Executable Limitations](#executable-limitations)
+- [HTTPS and Browser Security Warnings](#https-and-browser-security-warnings)
+  - [HTTPS Encryption](#https-encryption)
+  - [Expected Browser Warnings](#expected-browser-warnings)
+- [Configuration](#configuration)
+  - [Method 1: Command-Line Arguments (Recommended)](#method-1-command-line-arguments-recommended)
+  - [Method 2: Code Modification (Legacy)](#method-2-code-modification-legacy)
+- [Usage](#usage)
+  - [Starting the Server](#starting-the-server)
+  - [Accessing from Other Devices](#accessing-from-other-devices)
+  - [Navigation Features](#navigation-features)
+- [Screenshots](#screenshots)
+- [Security Features](#security-features)
+  - [Enhanced Security Measures](#enhanced-security-measures)
+  - [Built-in Security](#built-in-security)
+  - [Security Best Practices](#security-best-practices)
+- [Advanced Configuration](#advanced-configuration)
+  - [Environment-Specific Examples](#environment-specific-examples)
+  - [Multiple Configurations](#multiple-configurations)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Getting Help](#getting-help)
+  - [Network Troubleshooting](#network-troubleshooting)
+- [Development](#development)
+  - [Project Structure](#project-structure)
+  - [Key Components](#key-components)
+  - [Security Implementation Details](#security-implementation-details)
+  - [Adding Custom Features](#adding-custom-features)
+- [License](#license)
+- [Contributing](#contributing)
+
+---
+
 ## ⚠️ Important Security Disclaimer
 
 **READ THIS CAREFULLY BEFORE USING THIS SERVER**
